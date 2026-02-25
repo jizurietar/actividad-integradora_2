@@ -1,1 +1,1 @@
-# actividad-integradora_2
+# Sistema de Inventario y Ventas
