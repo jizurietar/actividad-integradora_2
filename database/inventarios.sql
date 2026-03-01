@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `ventas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Insertar datos de ejemplo
-INSERT INTO `productos` (`nombre`, `descripcion`, `stock`, `precio`,`delete`) VALUES
+INSERT INTO `productos` (`nombre`, `descripcion`, `stock`, `precio`,`deleted`) VALUES
 ('Laptop Dell Inspiron', 'Laptop de 15 pulgadas, Intel i5, 8GB RAM, 512GB SSD', 15, 899.99,0),
 ('Mouse Logitech MX Master', 'Mouse inalámbrico ergonómico con rueda de desplazamiento', 45, 89.99,0),
 ('Teclado Mecánico RGB', 'Teclado mecánico con retroiluminación RGB, switches azules', 30, 129.99,0),
