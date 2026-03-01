@@ -6,6 +6,7 @@ class Producto {
 
     public $id;
     public $nombre;
+    public $descripcion;
     public $stock;
     public $precio;
     public $fecha_creacion;
@@ -20,6 +21,10 @@ class Producto {
 
         if (empty(trim($this->nombre))) {
             $errors[] = "El nombre del producto no puede estar vacío";
+        }
+
+        if (empty(trim($this->descripcion))) {
+            $errors[] = "La descripción del producto no puede estar vacía";
         }
 
         if (!is_numeric($this->stock) || $this->stock < 0) {
@@ -39,11 +44,12 @@ class Producto {
             return ['success' => false, 'errors' => $errors];
         }
 
-        $query = "INSERT INTO " . $this->table_name . " (nombre, stock, precio) VALUES (:nombre, :stock, :precio)";
+        $query = "INSERT INTO " . $this->table_name . " (nombre,descripcion, stock, precio) VALUES (:nombre,:descripcion, :stock, :precio)";
 
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(":nombre", $this->nombre);
+        $stmt->bindParam(":descripcion", $this->descripcion);
         $stmt->bindParam(":stock", $this->stock);
         $stmt->bindParam(":precio", $this->precio);
 
@@ -55,7 +61,7 @@ class Producto {
     }
 
     public function read() {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY nombre";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE deleted = 0  ORDER BY nombre";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -75,6 +81,7 @@ class Producto {
         if ($row) {
             $this->id = $row['id'];
             $this->nombre = $row['nombre'];
+            $this->descripcion = $row['descripcion'];
             $this->stock = $row['stock'];
             $this->precio = $row['precio'];
             $this->fecha_creacion = $row['fecha_creacion'];
@@ -91,11 +98,12 @@ class Producto {
             return ['success' => false, 'errors' => $errors];
         }
 
-        $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, stock = :stock, precio = :precio WHERE id = :id";
+        $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, descripcion = :descripcion, stock = :stock, precio = :precio WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(":nombre", $this->nombre);
+        $stmt->bindParam(":descripcion", $this->descripcion);
         $stmt->bindParam(":stock", $this->stock);
         $stmt->bindParam(":precio", $this->precio);
         $stmt->bindParam(":id", $this->id);
@@ -108,7 +116,8 @@ class Producto {
     }
 
     public function delete() {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+        //Se mejora el proceso de borrado dejando solo eliminado logico
+        $query = "UPDATE  " . $this->table_name . " SET deleted = 1  WHERE id = ?";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->id);

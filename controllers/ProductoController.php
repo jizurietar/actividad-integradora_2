@@ -23,6 +23,7 @@ class ProductoController {
 
         if (isset($data->nombre) && isset($data->stock) && isset($data->precio)) {
             $this->producto->nombre = $data->nombre;
+            $this->producto->descripcion = $data->descripcion;
             $this->producto->stock = $data->stock;
             $this->producto->precio = $data->precio;
 
@@ -39,6 +40,7 @@ class ProductoController {
             echo json_encode([
                 'id' => $this->producto->id,
                 'nombre' => $this->producto->nombre,
+                'descripcion' => $this->producto->descripcion,
                 'stock' => $this->producto->stock,
                 'precio' => $this->producto->precio,
                 'fecha_creacion' => $this->producto->fecha_creacion,
@@ -55,6 +57,7 @@ class ProductoController {
         if (isset($data->nombre) && isset($data->stock) && isset($data->precio)) {
             $this->producto->id = $id;
             $this->producto->nombre = $data->nombre;
+            $this->producto->descripcion = $data->descripcion;
             $this->producto->stock = $data->stock;
             $this->producto->precio = $data->precio;
 

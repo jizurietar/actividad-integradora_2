@@ -46,12 +46,13 @@ session_start();
                             <table class="table table-striped" id="productosTable">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Stock</th>
-                                        <th>Precio</th>
-                                        <th>Fecha Creación</th>
-                                        <th>Acciones</th>
+                                       <th style="width: 60px;">ID</th>
+                                        <th style="width: 200px;">Nombre</th>
+                                        <th>Descripción</th>
+                                        <th style="width: 80px;">Stock</th>
+                                        <th style="width: 100px;">Precio</th>
+                                        <th style="width: 120px;">Fecha Creación</th>
+                                        <th style="width: 120px;">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="productosTableBody">
@@ -79,6 +80,11 @@ session_start();
                             <label for="nombre" class="form-label">Nombre del Producto</label>
                             <input type="text" class="form-control" id="nombre" required>
                             <div class="form-text">El nombre no puede estar vacío</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="descripcion" rows="3" required></textarea>
+                            <div class="form-text">La descripción no puede estar vacía</div>
                         </div>
                         <div class="mb-3">
                             <label for="stock" class="form-label">Stock</label>
@@ -116,6 +122,7 @@ session_start();
                         row.innerHTML = `
                             <td>${producto.id}</td>
                             <td>${producto.nombre}</td>
+                            <td>${producto.descripcion ?? ''}</td>
                             <td>
                                 <span class="badge ${producto.stock < 5 ? 'bg-danger' : 'bg-success'}">
                                     ${producto.stock}
@@ -144,11 +151,17 @@ session_start();
         function saveProducto() {
             const id = document.getElementById('productoId').value;
             const nombre = document.getElementById('nombre').value.trim();
+            const descripcion = document.getElementById('descripcion').value.trim();
             const stock = parseInt(document.getElementById('stock').value);
             const precio = parseFloat(document.getElementById('precio').value);
 
             if (!nombre) {
                 showAlert('El nombre del producto no puede estar vacío', 'danger');
+                return;
+            }
+
+            if (!descripcion) {
+                showAlert('La descripción del producto no puede estar vacía', 'danger');
                 return;
             }
 
@@ -162,7 +175,7 @@ session_start();
                 return;
             }
 
-            const data = { nombre, stock, precio };
+            const data = { nombre, descripcion, stock, precio };
             const url = id ? `../controllers/ProductoController.php?id=${id}` : '../controllers/ProductoController.php';
             const method = id ? 'PUT' : 'POST';
 
@@ -201,6 +214,7 @@ session_start();
                     
                     document.getElementById('productoId').value = producto.id;
                     document.getElementById('nombre').value = producto.nombre;
+                     document.getElementById('descripcion').value = producto.descripcion;
                     document.getElementById('stock').value = producto.stock;
                     document.getElementById('precio').value = producto.precio;
                     document.getElementById('modalTitle').textContent = 'Editar Producto';
