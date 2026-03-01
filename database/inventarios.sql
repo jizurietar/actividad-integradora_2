@@ -75,3 +75,36 @@ INSERT INTO `ventas` (`producto_id`, `cantidad`, `precio_unitario`, `total`, `fe
 (8, 10, 12.99, 129.90, '2025-01-22 11:30:00'),
 (9, 3, 24.99, 74.97, '2025-01-22 13:45:00'),
 (10, 2, 39.99, 79.98, '2025-01-23 10:00:00');
+
+
+DELIMITER //
+
+CREATE TRIGGER before_venta_insert
+BEFORE INSERT ON ventas
+FOR EACH ROW
+BEGIN
+    DECLARE stock_actual INT;
+    DECLARE producto_eliminado INT;
+
+    -- Obtener el stock actual del producto (ignorando productos eliminados lógicamente)
+    SELECT stock, deleted INTO stock_actual, producto_eliminado
+    FROM productos
+    WHERE id = NEW.producto_id
+    FOR UPDATE;  -- Bloquea la fila para evitar condiciones de carrera
+
+    -- Verificar si el producto existe y no está eliminado
+    IF producto_eliminado IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El producto no existe';
+    END IF;
+
+    IF producto_eliminado = 1 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El producto está eliminado';
+    END IF;
+
+    -- Verificar stock suficiente
+    IF stock_actual < NEW.cantidad THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Stock insuficiente para realizar la venta';
+    END IF;
+END//
+
+DELIMITER ;

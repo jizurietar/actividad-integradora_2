@@ -11,39 +11,34 @@ require_once '../controllers/VentaController.php';
 
 $db = new Database();
 $conn = $db->getConnection();
-//$venta = new Venta($conn);
-//$ventas =  $venta->read();
-//var_dump($ventas);
-//$idventa = $venta->getVentasByProducto(2);
-///var_dump($idventa);
 
-//$producto = new Producto($conn); 
-//$producto->id = 1;
-//$row = $producto->readOne();
-//var_dump($row);
+/*Busca un registro del model*/
 
-//$productoController = new ProductoController();
-//$row = $productoController->show(1000);
-//echo $row;
-//var_dump($row);
+/*$producto = new Producto($conn); 
+$row = $producto->read();
+var_dump($row);*/
 
+/*$venta = new Venta($conn);
+$ventas =  $venta->read();
+var_dump($ventas);*/
 
-/*Ventas de producto
-
+/*Ventas de totales producto*/
+/*
 $ventaService = new VentaService($conn);
 $totalVentas = $ventaService->getTotalVentas();
 var_dump($totalVentas);
-
+*/
 
 /*Probando los metodos de controladores*/
-
+/*
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://localhost/actividad-integradora_2/controllers/ProductoController.php?id=");
+curl_setopt($ch, CURLOPT_URL, "http://localhost/actividad-integradora_2/controllers/ProductoController.php?id=1");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 if (curl_errno($ch)) {
     echo 'cURL Error: ' . curl_error($ch);
 } else {
     echo $response;
-}
+}*/
+   
 ?>
