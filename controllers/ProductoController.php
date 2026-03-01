@@ -73,21 +73,20 @@ class ProductoController {
 
     public function handleRequest() {
         $method = $_SERVER['REQUEST_METHOD'];
-        $uri = $_SERVER['REQUEST_URI'];
-        $path = parse_url($uri, PHP_URL_PATH);
-        $path_parts = explode('/', trim($path, '/'));
-
         header('Content-Type: application/json');
+        $id = htmlspecialchars($_GET["id"]);
 
         try {
             switch ($method) {
                 case 'GET':
-                    if (isset($path_parts[2]) && is_numeric($path_parts[2])) {
-                        $this->show($path_parts[2]);
+                    
+                    if ($id) {
+                        $this->show($id);
                     } else {
                         $productos = $this->index();
                         echo json_encode($productos);
                     }
+                    
                     break;
 
                 case 'POST':
@@ -95,16 +94,16 @@ class ProductoController {
                     break;
 
                 case 'PUT':
-                    if (isset($path_parts[2]) && is_numeric($path_parts[2])) {
-                        $this->update($path_parts[2]);
+                    if ($id) {
+                        $this->update($id);
                     } else {
                         echo json_encode(['success' => false, 'errors' => ['ID no proporcionado']]);
                     }
                     break;
 
                 case 'DELETE':
-                    if (isset($path_parts[2]) && is_numeric($path_parts[2])) {
-                        $this->delete($path_parts[2]);
+                    if ($id) {
+                        $this->delete($id);
                     } else {
                         echo json_encode(['success' => false, 'errors' => ['ID no proporcionado']]);
                     }

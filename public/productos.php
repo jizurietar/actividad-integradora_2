@@ -163,7 +163,7 @@ session_start();
             }
 
             const data = { nombre, stock, precio };
-            const url = id ? `../controllers/ProductoController.php/${id}` : '../controllers/ProductoController.php';
+            const url = id ? `../controllers/ProductoController.php?id=${id}` : '../controllers/ProductoController.php';
             const method = id ? 'PUT' : 'POST';
 
             fetch(url, {
@@ -191,7 +191,7 @@ session_start();
         }
 
         function editProducto(id) {
-            fetch(`../controllers/ProductoController.php/${id}`)
+            fetch(`../controllers/ProductoController.php?id=${id}`)
                 .then(response => response.json())
                 .then(producto => {
                     if (producto.success === false) {
@@ -216,7 +216,7 @@ session_start();
 
         function deleteProducto(id) {
             if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
-                fetch(`../controllers/ProductoController.php/${id}`, {
+                fetch(`../controllers/ProductoController.php?id=${id}`, {
                     method: 'DELETE'
                 })
                 .then(response => response.json())

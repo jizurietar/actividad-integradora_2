@@ -2,7 +2,19 @@
 -- Base de datos: inventario_ventas
 
 -- Crear base de datos si no existe
+DROP DATABASE IF EXISTS `inventario_ventas`;
+
 CREATE DATABASE IF NOT EXISTS `inventario_ventas` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- crear usuario de la base de dato
+
+DROP USER IF EXISTS 'user_iv'@'%';
+
+CREATE USER 'user_iv'@'%' IDENTIFIED BY 'password';
+
+GRANT ALL PRIVILEGES ON inventario_ventas.* TO 'user_iv'@'%';
+
+FLUSH PRIVILEGES;
 
 -- Usar la base de datos
 USE `inventario_ventas`;
@@ -16,6 +28,8 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `precio` decimal(10,2) NOT NULL DEFAULT 0.00,
   `fecha_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_actualizacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted` int(1) NOT NULL DEFAULT 0,
+
   PRIMARY KEY (`id`),
   KEY `idx_nombre` (`nombre`),
   KEY `idx_stock` (`stock`),
@@ -37,17 +51,17 @@ CREATE TABLE IF NOT EXISTS `ventas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Insertar datos de ejemplo
-INSERT INTO `productos` (`nombre`, `descripcion`, `stock`, `precio`) VALUES
-('Laptop Dell Inspiron', 'Laptop de 15 pulgadas, Intel i5, 8GB RAM, 512GB SSD', 15, 899.99),
-('Mouse Logitech MX Master', 'Mouse inalámbrico ergonómico con rueda de desplazamiento', 45, 89.99),
-('Teclado Mecánico RGB', 'Teclado mecánico con retroiluminación RGB, switches azules', 30, 129.99),
-('Monitor Samsung 24"', 'Monitor LED 24 pulgadas, Full HD, 75Hz', 25, 189.99),
-('Auriculares Bluetooth', 'Auriculares inalámbricos con cancelación de ruido', 40, 149.99),
-('Webcam HD 1080p', 'Webcam USB Full HD con micrófono integrado', 35, 59.99),
-('Disco Duro Externo 1TB', 'Disco duro externo USB 3.0, 1TB de capacidad', 20, 79.99),
-('Memoria USB 64GB', 'Memoria USB 3.0, 64GB, alta velocidad', 100, 12.99),
-('Hub USB 4 Puertos', 'Hub USB con 4 puertos, compatible con USB 3.0', 50, 24.99),
-('Cargador Portátil', 'Cargador portátil universal 20000mAh', 60, 39.99);
+INSERT INTO `productos` (`nombre`, `descripcion`, `stock`, `precio`,`delete`) VALUES
+('Laptop Dell Inspiron', 'Laptop de 15 pulgadas, Intel i5, 8GB RAM, 512GB SSD', 15, 899.99,0),
+('Mouse Logitech MX Master', 'Mouse inalámbrico ergonómico con rueda de desplazamiento', 45, 89.99,0),
+('Teclado Mecánico RGB', 'Teclado mecánico con retroiluminación RGB, switches azules', 30, 129.99,0),
+('Monitor Samsung 24"', 'Monitor LED 24 pulgadas, Full HD, 75Hz', 25, 189.99,0),
+('Auriculares Bluetooth', 'Auriculares inalámbricos con cancelación de ruido', 40, 149.99,0),
+('Webcam HD 1080p', 'Webcam USB Full HD con micrófono integrado', 35, 59.99,0),
+('Disco Duro Externo 1TB', 'Disco duro externo USB 3.0, 1TB de capacidad', 20, 79.99,0),
+('Memoria USB 64GB', 'Memoria USB 3.0, 64GB, alta velocidad', 100, 12.99,0),
+('Hub USB 4 Puertos', 'Hub USB con 4 puertos, compatible con USB 3.0', 50, 24.99,0),
+('Cargador Portátil', 'Cargador portátil universal 20000mAh', 60, 39.99,0);
 
 -- Insertar algunas ventas de ejemplo
 INSERT INTO `ventas` (`producto_id`, `cantidad`, `precio_unitario`, `total`, `fecha_venta`) VALUES
