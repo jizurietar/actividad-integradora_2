@@ -10,7 +10,7 @@ CREATE DATABASE IF NOT EXISTS `inventario_ventas` DEFAULT CHARACTER SET utf8mb4 
 
 DROP USER IF EXISTS 'user_iv'@'%';
 
-CREATE USER 'user_iv'@'%' IDENTIFIED BY 'password';
+CREATE USER 'user_iv'@'%' IDENTIFIED BY 'inventario';
 
 GRANT ALL PRIVILEGES ON inventario_ventas.* TO 'user_iv'@'%';
 
