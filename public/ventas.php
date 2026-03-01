@@ -48,10 +48,10 @@ session_start();
                                     <tr>
                                         <th>ID</th>
                                         <th>Producto</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio Unitario</th>
-                                        <th>Total</th>
-                                        <th>Fecha Venta</th>
+                                        <th style="text-align: right;">Cantidad</th>
+                                        <th style="text-align: right;">Precio Unitario</th>
+                                        <th style="text-align: right;">Total</th>
+                                        <th style="text-align: right;">Fecha Venta</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ventasTableBody">
@@ -146,10 +146,10 @@ session_start();
                         row.innerHTML = `
                             <td>${venta.id}</td>
                             <td>${venta.producto_nombre || 'Producto #' + venta.producto_id}</td>
-                            <td>${venta.cantidad}</td>
-                            <td>$${parseFloat(venta.precio_unitario).toFixed(2)}</td>
-                            <td>$${parseFloat(venta.total).toFixed(2)}</td>
-                            <td>${new Date(venta.fecha_venta).toLocaleDateString()}</td>
+                            <td style="text-align: right;">${venta.cantidad}</td>
+                            <td style="text-align: right;">$${parseFloat(venta.precio_unitario).toFixed(2)}</td>
+                            <td style="text-align: right;">$${parseFloat(venta.total).toFixed(2)}</td>
+                            <td style="text-align: right;">${new Date(venta.fecha_venta).toLocaleDateString()}</td>
                         `;
                         tbody.appendChild(row);
                     });

@@ -49,8 +49,8 @@ session_start();
                                        <th style="width: 60px;">ID</th>
                                         <th style="width: 200px;">Nombre</th>
                                         <th>Descripción</th>
-                                        <th style="width: 80px;">Stock</th>
-                                        <th style="width: 100px;">Precio</th>
+                                        <th style="width: 80px; text-align: right;">Stock</th>
+                                        <th style="width: 100px; text-align: right;">Precio</th>
                                         <th style="width: 120px;">Fecha Creación</th>
                                         <th style="width: 120px;">Acciones</th>
                                     </tr>
@@ -122,13 +122,13 @@ session_start();
                         row.innerHTML = `
                             <td>${producto.id}</td>
                             <td>${producto.nombre}</td>
-                            <td>${producto.descripcion ?? ''}</td>
-                            <td>
+                            <td >${producto.descripcion ?? ''}</td>
+                            <td style="text-align: right;">
                                 <span class="badge ${producto.stock < 5 ? 'bg-danger' : 'bg-success'}">
                                     ${producto.stock}
                                 </span>
                             </td>
-                            <td>$${parseFloat(producto.precio).toFixed(2)}</td>
+                            <td style="text-align: right;">$${parseFloat(producto.precio).toFixed(2)}</td>
                             <td>${new Date(producto.fecha_creacion).toLocaleDateString()}</td>
                             <td>
                                 <button class="btn btn-sm btn-warning" onclick="editProducto(${producto.id})">
